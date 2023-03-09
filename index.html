@@ -14,15 +14,15 @@
 
       const obj = {};
 
-      const words = phrase
-        .toLowerCase()
-        .replaceAll(",", "")
-        .replaceAll("!", "")
-        .replaceAll("?", "")
-        .replaceAll("«", "")
-        .replaceAll("»", "")
-        .replaceAll(";", "")
-        .split(" ");
+      const ignored = [",", "!", "?", "«", "»", ";", "..."];
+
+      let cleanedPhrase = phrase.toLocaleLowerCase();
+
+      for (let character of ignored) {
+        cleanedPhrase = cleanedPhrase.replaceAll(character, "");
+      }
+
+      const words = cleanedPhrase.split(" ");
 
       for (let word of words) {
         if (word !== "") {
@@ -35,12 +35,18 @@
       }
 
       const arr = [];
+
       for (let k in obj) {
         arr.push({
           word: k,
           count: obj[k],
         });
       }
+
+      arr.sort((a, b) => b.count - a.count);
+      console.log(
+        `les mots les plus fréquents sont : "${arr[0].word}" ${arr[0].count} fois, "${arr[1].word}" ${arr[1].count} fois, "${arr[2].word}" ${arr[2].count} fois`
+      );
 
       console.log(arr);
     </script>
